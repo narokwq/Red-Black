@@ -2,12 +2,12 @@
 #include "RedBlack.h"
 
 int main(){
-    t_no no = {1, 'V', NULL, NULL, NULL};
+    t_elemento no = {1};
 
-    arvore t = &no;
+    arvore t = criar_no(no); //criar_arvore();
 
-    if(is_vazio(t))
-        printf("%s","Vazio");
+    if(t->cor == RED)
+        printf("%s","VERMELHO");
     else
-        printf("%s","Cheio");
+        printf("%s","PRETO");
 }

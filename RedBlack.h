@@ -1,19 +1,23 @@
 #ifndef RED_BLACK_REDBLACK_H
 #define RED_BLACK_REDBLACK_H
 
+typedef struct elemento{
+    int valor;
+}t_elemento;
+
 typedef struct no{
-    int elemento;
-    char cor;
+    t_elemento elemento;
+    enum Cor {RED, BLACK} cor;
     struct no *dir, *esq, *pai;
 }t_no;
 
 typedef t_no *arvore;
 
-int is_vazio(arvore tree);
-int inserir(arvore *tree, int elemento);
-void inserir_fix(arvore tree, int elemento);
-int remover(arvore *tree, int elemento);
-void rotacionar_direita(arvore tree);
-void rotacionar_esquerda(arvore tree);
+t_no* criar_arvore();
+t_no* criar_no(t_elemento elemento);                //Cria um nó com seu determinado elemento
+int is_vazio(arvore tree);                          //Verifica se a Arvore esta vazia
+int inserir(arvore *tree, t_elemento elemento);     //Insere um nó na arvore
+t_no* buscar(arvore tree, t_elemento elementoB);    //Busca um elemento na arvore
+int remover(arvore *tree, int elemento);            //Remove um nó da arvore
 
 #endif //RED_BLACK_REDBLACK_H
