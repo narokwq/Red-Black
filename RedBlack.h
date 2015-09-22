@@ -19,5 +19,8 @@ int is_vazio(arvore tree);                          //Verifica se a Arvore esta 
 int inserir(arvore *tree, t_elemento elemento);     //Insere um nó na arvore
 t_no* buscar(arvore tree, t_elemento elementoB);    //Busca um elemento na arvore
 int remover(arvore *tree, int elemento);            //Remove um nó da arvore
+void pre_ordem(arvore tree);
+void in_ordem(arvore tree);
+void pos_ordem(arvore tree);
 
 #endif //RED_BLACK_REDBLACK_H

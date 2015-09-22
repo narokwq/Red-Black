@@ -3,7 +3,7 @@
 #include "RedBlack.h"
 
 int comparar(t_elemento elemento1, t_elemento elemento2){
-    return elemento1.valor < elemento2.valor;
+    return elemento1.valor - elemento2.valor;
 }
 
 int is_vazio(arvore tree){
@@ -50,7 +50,7 @@ int inserir(arvore *tree, t_elemento elemento){
         return 0;
     }
     if(inserir_na_arvore(tree, NULL, novo_no)){
-        inserir_fix(tree, novo_no);
+        //inserir_fix(tree, novo_no);
         return 1;
     }
     return 0;
@@ -114,4 +114,28 @@ void rotacionar_esquerda(arvore *tree, arvore no){
     aux->esq = no;
     no->pai = aux;
 
+}
+
+void pre_ordem(arvore tree){
+    if(tree != NULL) {
+        printf("%d ", tree->elemento.valor);
+        pre_ordem(tree->esq);
+        pre_ordem(tree->dir);
+    }
+}
+
+void in_ordem(arvore tree){
+    if(tree != NULL) {
+        in_ordem(tree->esq);
+        printf("%d ", tree->elemento.valor);
+        in_ordem(tree->dir);
+    }
+}
+
+void pos_ordem(arvore tree){
+    if(tree != NULL) {
+        pos_ordem(tree->esq);
+        pos_ordem(tree->dir);
+        printf("%d ", tree->elemento.valor);
+    }
 }
