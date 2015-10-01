@@ -7,7 +7,7 @@ typedef struct elemento{
 
 typedef struct no{
     t_elemento elemento;
-    enum Cor {R, B} cor;
+    enum Cor {RED, BLACK} cor;
     struct no *dir, *esq, *pai;
 }t_no;
 
@@ -22,7 +22,7 @@ t_arvore* criar_arvore();
 t_no* criar_no(arvore  raiz, t_elemento elemento);                //Cria um nó com seu determinado elemento
 int is_vazio(arvore tree);                          //Verifica se a Arvore esta vazia
 int inserir(arvore tree, t_elemento elemento);     //Insere um nó na arvore
-t_no* buscar(t_no* tree, t_elemento elementoB);    //Busca um elemento na arvore
+t_no* buscar(arvore tree, t_elemento elementoB);    //Busca um elemento na arvore
 int remover(arvore tree, int elemento);            //Remove um nó da arvore
 void pre_ordem(arvore tree, t_no* raiz);
 void in_ordem(arvore tree, t_no* raiz);

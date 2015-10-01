@@ -25,6 +25,11 @@ int main(){
     inserir(t,no6);
     inserir(t,no7);
 
+    if(buscar(t, (t_elemento){9}))
+        printf("Achou\n");
+    else
+        printf("Nao Achou\n");
+
     //Fim de teste
     printf("\nPre-ordem\n");
     pre_ordem(t, t->raiz);

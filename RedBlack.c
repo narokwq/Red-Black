@@ -19,7 +19,7 @@ t_arvore* criar_arvore() {
     if (tree) {
         if(nulo)
             nulo->pai = nulo->dir = nulo->esq = nulo;
-            nulo->cor = B;
+            nulo->cor = BLACK;
             tree->raiz = tree->nulo = nulo;
     }
     return tree;
@@ -30,7 +30,7 @@ t_no* criar_no(arvore  raiz, t_elemento elemento) {
     if (no) {
         no->elemento = elemento;
         no->dir = no->esq = no->pai = raiz->nulo;
-        no->cor = R;
+        no->cor = RED;
     }
 
     return no;
@@ -70,62 +70,59 @@ int inserir(arvore tree, t_elemento elemento){
 //Preguica de implementar
 void inserir_fix(arvore tree, t_no* no){
     t_no* tio;
-    while(no->pai->cor == R){
+    while(no->pai->cor == RED){
         if(no->pai == no->pai->pai->esq){
 
             tio = no->pai->pai->dir;
-            if(tio->cor == R){
-                no->pai->cor = B;
-                tio->cor = B;
-                no->pai->pai->cor = R;
+            if(tio->cor == RED){
+                no->pai->cor = BLACK;
+                tio->cor = BLACK;
+                no->pai->pai->cor = RED;
                 no = no->pai->pai;
             }else {
                 if(no == no->pai->dir){
                     no = no->pai;
                     rotacionar_esquerda(tree, no);
                 }
-                no->pai->cor = B;
-                no->pai->pai->cor = R;
+                no->pai->cor = BLACK;
+                no->pai->pai->cor = RED;
                 rotacionar_direita(tree, no->pai->pai);
             }
 
-
-
         }else{
             tio = no->pai->pai->esq;
-            if(tio->cor == R){
-                no->pai->cor = B;
-                tio->cor = B;
-                no->pai->pai->cor = R;
+            if(tio->cor == RED){
+                no->pai->cor = BLACK;
+                tio->cor = BLACK;
+                no->pai->pai->cor = RED;
                 no = no->pai->pai;
             }else {
                 if(no == no->pai->esq){
                     no = no->pai;
                     rotacionar_direita(tree, no);
                 }
-                no->pai->cor = B;
-                no->pai->pai->cor = R;
+                no->pai->cor = BLACK;
+                no->pai->pai->cor = RED;
                 rotacionar_esquerda(tree, no->pai->pai);
             }
-
-
 
         }
 
     }
-    tree->raiz->cor = B;
+    tree->raiz->cor = BLACK;
 }
 
-t_no* buscar(t_no* tree, t_elemento elementoB){
-   while(tree != NULL){
-       if(!comparar(tree->elemento, elementoB))
-           return tree;
-       else if(comparar(tree->elemento, elementoB) > 0)
-           tree = tree->esq;
+t_no* buscar(arvore tree, t_elemento elementoB){
+   t_no* no = tree->raiz;
+   while(no != tree->nulo){
+       if(!comparar(no->elemento, elementoB))
+           return no;
+       else if(comparar(no->elemento, elementoB) > 0)
+           no = no->esq;
        else
-           tree = tree->dir;
+           no = no->dir;
    }
-    return tree;
+    return NULL;
 }
 
 int remover(arvore tree, int elemento){
@@ -174,7 +171,7 @@ void rotacionar_esquerda(arvore tree, t_no* no){
 void pre_ordem(arvore tree, t_no* raiz){
     if(raiz != tree->nulo) {
         printf("%d ", raiz->elemento.valor);
-        if(raiz->cor == R)
+        if(raiz->cor == RED)
             printf("Vermelho\n");
         else
             printf("Preto\n");
@@ -187,7 +184,7 @@ void in_ordem(arvore tree, t_no* raiz){
     if(raiz != tree->nulo) {
         in_ordem(tree, raiz->esq);
         printf("%d : ", raiz->elemento.valor);
-        if(raiz->cor == R)
+        if(raiz->cor == RED)
             printf("Vermelho\n");
         else
             printf("Preto\n");
@@ -200,7 +197,7 @@ void pos_ordem(arvore tree, t_no* raiz){
         pos_ordem(tree, raiz->esq);
         pos_ordem(tree, raiz->dir);
         printf("%d ", raiz->elemento.valor);
-        if(raiz->cor == R)
+        if(raiz->cor == RED)
             printf("Vermelho\n");
         else
             printf("Preto\n");
