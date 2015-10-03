@@ -27,5 +27,6 @@ int remover(arvore tree, int elemento);            //Remove um nó da arvore
 void pre_ordem(arvore tree, t_no* raiz);
 void in_ordem(arvore tree, t_no* raiz);
 void pos_ordem(arvore tree, t_no* raiz);
+void exibirGraficamente(arvore tree, int col, int desloc);
 
 #endif //RED_BLACK_REDBLACK_H

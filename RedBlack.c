@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
 #include "RedBlack.h"
 
 void inserir_fix(arvore tree, t_no* no);
 void rotacionar_direita(arvore tree, t_no* no);
 void rotacionar_esquerda(arvore tree, t_no* no);
+void exGraficamente(arvore tree, t_no* no, int col, int lin, int desloc);
 
 int comparar(t_elemento elemento1, t_elemento elemento2){
     return elemento1.valor - elemento2.valor;
@@ -67,7 +69,7 @@ int inserir(arvore tree, t_elemento elemento){
     return 0;
 }
 
-//Preguica de implementar
+
 void inserir_fix(arvore tree, t_no* no){
     t_no* tio;
     while(no->pai->cor == RED){
@@ -126,6 +128,10 @@ t_no* buscar(arvore tree, t_elemento elementoB){
 }
 
 int remover(arvore tree, int elemento){
+    //TODO
+}
+
+int remover_fix(arvore tree, int elemento){
     //TODO
 }
 
@@ -202,4 +208,35 @@ void pos_ordem(arvore tree, t_no* raiz){
         else
             printf("Preto\n");
     }
+}
+
+COORD getCursorPosition(){
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+    return info.dwCursorPosition;
+}
+
+void gotoxy(int x, int y){
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD cord;
+    cord.X = (short) x;
+    cord.Y = (short) y;
+
+    SetConsoleCursorPosition(hStdout, cord);
+}
+
+void exibirGraficamente(arvore tree, int col, int desloc){
+    exGraficamente(tree, tree->raiz, col,  getCursorPosition().Y, desloc);
+}
+
+void exGraficamente(arvore tree, t_no* no, int col, int lin, int desloc)
+{
+    if (no == tree->nulo)
+        return;
+    gotoxy(col,lin);
+    printf("%d", no->elemento.valor);
+    if (no->esq != tree->nulo)
+        exGraficamente(tree, no->esq,col-desloc,lin+2,desloc/2+1);
+    if (no->dir != tree->nulo)
+        exGraficamente(tree, no->dir,col+desloc,lin+2,desloc/2+1);
 }
