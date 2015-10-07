@@ -7,6 +7,7 @@ void inserir_fix(arvore tree, t_no* no);
 void rotacionar_direita(arvore tree, t_no* no);
 void rotacionar_esquerda(arvore tree, t_no* no);
 void exGraficamente(arvore tree, t_no* no, int col, int lin, int desloc);
+void transplante(arvore tree, t_no* no, t_no* noTroca);
 
 int comparar(t_elemento elemento1, t_elemento elemento2){
     return elemento1.valor - elemento2.valor;
@@ -126,13 +127,73 @@ t_no* buscar(arvore tree, t_elemento elementoB){
    }
     return NULL;
 }
-
+void transplante(arvore tree, t_no* no, t_no* noTroca){
+    if(no->pai == tree->nulo)
+        tree->raiz = noTroca;
+    else if(no == no->pai->esq)
+        no->pai->esq = noTroca;
+    else no->pai->dir = noTroca;
+    noTroca->pai = no->pai;
+}
 int remover(arvore tree, int elemento){
     //TODO
 }
 
-int remover_fix(arvore tree, int elemento){
-    //TODO
+int remover_fix(arvore tree, t_no* no){
+    t_no* aux = NULL;
+    while((no != tree->nulo) && (no->cor == BLACK)){
+        if(no == no->pai->esq){
+            if(((aux = no->pai->dir)->cor == RED)){
+                aux->cor = BLACK;
+                no->pai->cor = RED;
+                rotacionar_esquerda(tree, no->pai);
+                aux = no->pai->dir;
+            }
+            if((aux->esq->cor == BLACK) && (aux->dir->cor == BLACK)){
+                aux->cor = RED;
+                no = no->pai;
+            }
+            else{
+                if(aux->dir->cor == BLACK){
+                    aux->esq->cor = BLACK;
+                    aux->cor = RED;
+                    rotacionar_direita(tree, aux);
+                    aux = no->pai->dir;
+                }
+                aux->cor = no->pai->cor;
+                no->pai->cor = BLACK;
+                aux->dir->cor = BLACK;
+                rotacionar_esquerda(tree, no->pai);
+                no = tree->raiz;
+            }
+
+        }else{
+            if(((aux = no->pai->esq)->cor == RED)){
+                aux->cor = BLACK;
+                no->pai->cor = RED;
+                rotacionar_direita(tree, no->pai);
+                aux = no->pai->esq;
+            }
+            if((aux->esq->cor == BLACK) && (aux->dir->cor == BLACK)){
+                aux->cor = RED;
+                no = no->pai;
+            }
+            else{
+                if(aux->esq->cor == BLACK){
+                    aux->dir->cor = BLACK;
+                    aux->cor = RED;
+                    rotacionar_esquerda(tree, aux);
+                    aux = no->pai->esq;
+                }
+                aux->cor = no->pai->cor;
+                no->pai->cor = BLACK;
+                aux->esq->cor = BLACK;
+                rotacionar_esquerda(tree, no->pai);
+                no = tree->raiz;
+            }
+        }
+    }
+    no->cor = BLACK;
 }
 
 void rotacionar_direita(arvore tree, t_no* no){
