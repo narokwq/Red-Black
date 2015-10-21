@@ -24,10 +24,13 @@ int main(){
     inserir(t,no6);
     inserir(t,no7);
 
-    if(buscar(t, (t_elemento){9}))
-        printf("Achou\n");
+    if(buscar(t, (t_elemento){8}))
+        printf("Achou chave 8\n");
     else
-        printf("Nao Achou\n");
+        printf("Nao Achou chave 8\n");
+
+    printf("Removeu chave 8\n");
+    remover(t, no6);
 
     //Fim de teste
     printf("\nPre-ordem\n");
@@ -38,10 +41,11 @@ int main(){
     pos_ordem(t, t->raiz);
     printf("\n");
     printf("\nGraficamente\n");
+
     exibirGraficamente(t, 30, 15);
     printf("\n\n");
 
-
+    liberarTree(t);
     getchar();
 }
 

@@ -23,10 +23,11 @@ t_no* criar_no(arvore  raiz, t_elemento elemento);                //Cria um nó c
 int is_vazio(arvore tree);                          //Verifica se a Arvore esta vazia
 int inserir(arvore tree, t_elemento elemento);     //Insere um nó na arvore
 t_no* buscar(arvore tree, t_elemento elementoB);    //Busca um elemento na arvore
-int remover(arvore tree, int elemento);            //Remove um nó da arvore
+int remover(arvore tree, t_elemento elemento);            //Remove um nó da arvore
 void pre_ordem(arvore tree, t_no* raiz);
 void in_ordem(arvore tree, t_no* raiz);
 void pos_ordem(arvore tree, t_no* raiz);
 void exibirGraficamente(arvore tree, int col, int desloc);
+void liberarTree(arvore tree);
 
 #endif //RED_BLACK_REDBLACK_H

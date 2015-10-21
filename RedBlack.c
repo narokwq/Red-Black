@@ -8,6 +8,7 @@ void rotacionar_direita(arvore tree, t_no* no);
 void rotacionar_esquerda(arvore tree, t_no* no);
 void exGraficamente(arvore tree, t_no* no, int col, int lin, int desloc);
 void transplante(arvore tree, t_no* no, t_no* noTroca);
+int remover_fix(arvore tree, t_no* no);
 
 int comparar(t_elemento elemento1, t_elemento elemento2){
     return elemento1.valor - elemento2.valor;
@@ -135,8 +136,44 @@ void transplante(arvore tree, t_no* no, t_no* noTroca){
     else no->pai->dir = noTroca;
     noTroca->pai = no->pai;
 }
-int remover(arvore tree, int elemento){
-    //TODO
+t_no* minimun(arvore tree, t_no* no){
+    while(no->esq != tree->nulo)
+        no = no->esq;
+    return no;
+}
+int remover(arvore tree, t_elemento elemento){
+    int cor;
+    t_no* aux, *noaux;
+    t_no* no = noaux = buscar(tree, elemento);
+    if(no == NULL)
+        return 0;
+    cor = noaux->cor;
+    if(no->esq == tree->nulo){
+        aux = no->dir;
+        transplante(tree, no, no->dir);
+    }else if(no->dir == tree->nulo){
+        aux = no->esq;
+        transplante(tree, no, no->esq);
+    }else{
+        noaux = minimun(tree, no->dir);
+        cor = noaux->cor;
+        aux = noaux->dir;
+        if(noaux->pai == no){
+            aux->pai = noaux;
+        }else{
+            transplante(tree, noaux, noaux->dir);
+            noaux->dir = no->dir;
+            noaux->dir->pai = noaux;
+        }
+        noaux->esq = no->esq;
+        noaux->esq->pai = noaux;
+        noaux->cor = no->cor;
+    }
+
+    if(cor == BLACK){
+        remover_fix(tree, aux);
+    }
+    return 1;
 }
 
 int remover_fix(arvore tree, t_no* no){
@@ -269,6 +306,21 @@ void pos_ordem(arvore tree, t_no* raiz){
         else
             printf("Preto\n");
     }
+}
+
+void liberarNos(arvore tree, t_no* no) {
+    if (no != tree->nulo) {
+        liberarNos(tree, no->esq);
+        liberarNos(tree, no->dir);
+        free(no);
+    }
+}
+
+void liberarTree(arvore tree){
+    liberarNos(tree, tree->raiz);
+    free(tree->nulo);
+    free(tree->raiz);
+    free(tree);
 }
 
 COORD getCursorPosition(){
